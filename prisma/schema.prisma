@@ -1,0 +1,43 @@
+// MediVault - Structured user data (MySQL)
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  Admin
+  Doctor
+  Nurse
+  Student
+  Patient
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String?   @unique
+  phone        String?   @unique
+  passwordHash String?
+  role         UserRole
+  fullName     String
+  license      String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([email])
+  @@index([phone])
+}
+
+model OtpSession {
+  id        String   @id @default(cuid())
+  phone     String
+  otp       String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([phone])
+  @@index([expiresAt])
+}
