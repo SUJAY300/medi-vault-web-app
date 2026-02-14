@@ -19,7 +19,7 @@ import {
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp"
 import { useToast } from "@/hooks/use-toast"
 import { Shield } from "lucide-react"
-import { patientOtpSendSchema, otpSchema, professionalLoginSchema } from "@/lib/auth-schemas"
+import { patientOtpSendSchema, otpSchema, professionalLoginSchema } from "../../../shared/schemas/authSchemas"
 
 const ROLES = ["Admin", "Doctor", "Nurse", "Student", "Patient"]
 const DASHBOARD_ROUTES = {

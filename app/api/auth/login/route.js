@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server"
-import bcrypt from "bcryptjs"
-import { getUserByEmail } from "@/lib/auth"
-import { professionalLoginSchema } from "@/lib/auth-schemas"
+import { loginController } from "../../../../backend/controllers/authController"
+import { professionalLoginSchema } from "../../../../shared/schemas/authSchemas"
 
 export async function POST(request) {
   try {
@@ -15,25 +14,12 @@ export async function POST(request) {
     }
     const { email, password } = parsed.data
 
-    const user = await getUserByEmail(email)
-    if (!user) {
-      return NextResponse.json({ error: "Invalid email or password" }, { status: 401 })
+    const result = await loginController(email, password)
+    if (!result.success) {
+      return NextResponse.json({ error: result.error }, { status: result.status || 500 })
     }
 
-    const match = await bcrypt.compare(password, user.passwordHash)
-    if (!match) {
-      return NextResponse.json({ error: "Invalid email or password" }, { status: 401 })
-    }
-
-    return NextResponse.json({
-      success: true,
-      user: {
-        id: user.id,
-        role: user.role,
-        fullName: user.fullName,
-        email: user.email,
-      },
-    })
+    return NextResponse.json(result)
   } catch (error) {
     console.error("Login error:", error)
     return NextResponse.json({ error: "Login failed" }, { status: 500 })

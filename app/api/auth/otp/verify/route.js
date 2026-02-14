@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
-import { verifyOTP, getPatientByPhone } from "@/lib/auth"
-import { patientOtpVerifySchema } from "@/lib/auth-schemas"
+import { verifyOtpController } from "../../../../../backend/controllers/otpController"
+import { patientOtpVerifySchema } from "../../../../../shared/schemas/authSchemas"
 
 export async function POST(request) {
   try {
@@ -14,28 +14,12 @@ export async function POST(request) {
     }
     const { phone, otp } = parsed.data
 
-    const result = await verifyOTP(phone, otp)
-    if (!result.valid) {
-      return NextResponse.json({ error: result.error }, { status: 400 })
+    const result = await verifyOtpController(phone, otp)
+    if (!result.success) {
+      return NextResponse.json({ error: result.error }, { status: result.status || 500 })
     }
 
-    const patient = await getPatientByPhone(phone)
-    if (!patient) {
-      return NextResponse.json(
-        { error: "Account not found. Please sign up first." },
-        { status: 404 }
-      )
-    }
-
-    return NextResponse.json({
-      success: true,
-      user: {
-        id: patient.id,
-        role: patient.role,
-        fullName: patient.fullName,
-        phone: patient.phone,
-      },
-    })
+    return NextResponse.json(result)
   } catch (error) {
     console.error("OTP verify error:", error)
     return NextResponse.json({ error: "Verification failed" }, { status: 500 })
