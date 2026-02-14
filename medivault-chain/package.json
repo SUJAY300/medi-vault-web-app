@@ -1,0 +1,34 @@
+{
+  "name": "medivault-chain",
+  "version": "1.0.0",
+  "description": "Medivault blockchain project with Truffle and IPFS/Pinata integration",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "truffle test",
+    "migrate": "truffle migrate --network development",
+    "migrate:reset": "truffle migrate --network development --reset",
+    "clean": "rm -rf node_modules package-lock.json && npm cache clean --force"
+  },
+  "keywords": [
+    "blockchain",
+    "truffle",
+    "ipfs",
+    "pinata",
+    "ethereum"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@pinata/sdk": "^2.2.1",
+    "ipfs-http-client": "^59.0.0",
+    "web3": "^1.12.0",
+    "bs-platform": "9.0.2"
+  },
+  "devDependencies": {
+    "truffle": "^5.9.0"
+  },
+  "directories": {
+    "test": "test"
+  }
+}
