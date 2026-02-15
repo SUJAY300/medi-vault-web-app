@@ -1,5 +1,3 @@
-import mongoose from "mongoose"
-import bcrypt from "bcryptjs"
 import { readFileSync, existsSync } from "fs"
 import { resolve } from "path"
 
@@ -13,16 +11,23 @@ if (existsSync(envPath)) {
   })
 }
 
+import mongoose from "mongoose"
+import bcrypt from "bcryptjs"
 import User from "../backend/models/User.js"
 
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/medivault"
 
+// Show where we're connecting (mask password)
+const safeUri = MONGODB_URI.replace(/:[^:@]+@/, ":****@")
+console.log("Connecting to:", safeUri)
+
 async function main() {
   try {
     await mongoose.connect(MONGODB_URI)
-    console.log("Connected to MongoDB")
+    const dbName = mongoose.connection.db.databaseName
+    console.log("Connected to MongoDB, database:", dbName)
 
-    const existing = await User.findOne({ email: "admin@medivault.com" })
+    const existing = await User.findOne({ email: "admin@medivault.com" }).lean()
     if (existing) {
       console.log("Demo admin already exists")
       await mongoose.disconnect()
@@ -38,6 +43,7 @@ async function main() {
       fullName: "System Admin",
     })
     console.log("Demo admin created: admin@medivault.com / Admin@123")
+    console.log("In Atlas: open database '" + dbName + "' -> collection 'users' to see the document.")
   } catch (error) {
     console.error("Seed error:", error)
     throw error
