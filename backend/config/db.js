@@ -1,7 +1,10 @@
-import { PrismaClient } from "@prisma/client"
+/**
+ * Database configuration - MongoDB only
+ * This file is kept for backward compatibility but now uses MongoDB
+ */
 
-const globalForPrisma = globalThis
+import connectDB from "./mongodb"
+import User from "../models/User"
+import OtpSession from "../models/OtpSession"
 
-export const prisma = globalForPrisma.prisma ?? new PrismaClient()
-
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma
+export { connectDB, User, OtpSession }

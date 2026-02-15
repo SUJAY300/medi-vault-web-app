@@ -360,7 +360,7 @@ medi-vault-web-app/
 
 - **Node.js**: Version 18.0 or higher
 - **npm**: Version 9.0 or higher (comes with Node.js)
-- **Docker**: For running MySQL and MongoDB locally
+- **MongoDB**: Version 7.0 or higher (install locally or use MongoDB Atlas)
 - **Git**: For version control
 
 ### Installation Steps
@@ -384,7 +384,6 @@ Create a `.env.local` file in the root directory:
 
 ```env
 # Database Configuration
-DATABASE_URL="mysql://medivault:medivault@localhost:3306/medivault"
 MONGODB_URI="mongodb://localhost:27017/medivault"
 
 # Twilio Configuration (Optional - for SMS OTP)
@@ -397,28 +396,24 @@ NODE_ENV=development
 ```
 
 **Note**: 
-- If `DATABASE_URL` is not set, the app uses in-memory authentication (demo mode)
+- If `MONGODB_URI` is not set, the app uses in-memory authentication (demo mode)
 - If Twilio credentials are not set, OTP is logged to console in development mode
 
-#### 4. Start Docker Services
+#### 4. Start MongoDB
 
-```bash
-docker-compose up -d
-```
+Make sure MongoDB is running locally on port `27017`, or use MongoDB Atlas and update `MONGODB_URI` accordingly.
 
-This starts:
-- **MySQL 8** on port `3306`
-- **MongoDB 7** on port `27017`
+**Local MongoDB:**
+- Install MongoDB from [mongodb.com](https://www.mongodb.com/try/download/community)
+- Start MongoDB service: `mongod` (or use your system's service manager)
+
+**MongoDB Atlas (Cloud):**
+- Create a free cluster at [mongodb.com/cloud/atlas](https://www.mongodb.com/cloud/atlas)
+- Update `MONGODB_URI` with your connection string
 
 #### 5. Initialize Database
 
 ```bash
-# Generate Prisma client
-npm run db:generate
-
-# Push schema to database
-npm run db:push
-
 # Seed database with demo admin
 npm run db:seed
 ```
@@ -726,19 +721,16 @@ Soft delete a document (sets status to "deleted").
 ### Backend
 - **Runtime**: Node.js
 - **Framework**: Next.js API Routes
-- **ORM**: Prisma 6.19 (MySQL)
 - **ODM**: Mongoose 9.1 (MongoDB)
 - **Validation**: Zod 3.25
 - **Authentication**: bcryptjs 3.0
 - **SMS**: Twilio 5.12
 
 ### Databases
-- **Structured Data**: MySQL 8.0 (via Prisma)
-- **Unstructured Data**: MongoDB 7.0 (via Mongoose)
+- **Database**: MongoDB 7.0 (via Mongoose)
 
 ### Development Tools
 - **Package Manager**: npm
-- **Containerization**: Docker & Docker Compose
 - **Version Control**: Git
 
 ### Future Integrations

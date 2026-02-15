@@ -1,6 +1,6 @@
 /**
  * In-memory stores for auth (dev/demo).
- * Replace with database (Prisma, Drizzle, etc.) for production.
+ * Replace with MongoDB database for production.
  */
 
 // OTP store: { phone: { otp, expiresAt } }

@@ -1,9 +1,9 @@
 /**
- * Auth service - uses MySQL when DATABASE_URL is set, otherwise in-memory demo.
+ * Auth service - uses MongoDB when MONGODB_URI is set, otherwise in-memory demo.
  * Falls back to in-memory if DB connection fails.
  */
 
-const hasDatabase = !!process.env.DATABASE_URL
+const hasDatabase = !!process.env.MONGODB_URI
 
 async function getAuth() {
   if (hasDatabase) {
