@@ -1,4 +1,4 @@
-# MediVault – Hospital Management System
+# MediVault –- Hospital Management System
 
 A hospital management web application with role-based dashboards (Admin, Doctor, Nurse, Patient, Intern/Student), blockchain-backed medical document storage, and a Gemini-powered summarizer and chatbot for querying patient reports.
 
