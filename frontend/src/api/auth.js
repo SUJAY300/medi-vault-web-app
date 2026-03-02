@@ -1,10 +1,16 @@
 const API_BASE = "/api";
 
-export async function signup({ username, password, role, fullName }) {
+export async function signup({ username, password, role, fullName, doctorId }) {
   const res = await fetch(`${API_BASE}/auth/signup`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password, role, fullName }),
+    body: JSON.stringify({
+      username,
+      password,
+      role,
+      fullName,
+      ...(role === "Patient" && doctorId ? { doctorId } : {}),
+    }),
   });
   const data = await res.json();
   if (!res.ok) throw new Error(data.message || "Signup failed");
