@@ -12,7 +12,7 @@ export async function signup(req, res) {
     });
   }
   try {
-    const { username, password, role, fullName } = req.body;
+    const { username, password, role, fullName, doctorId, doctor: doctorFromBody } = req.body;
 
     if (!username || !password || !role || !fullName) {
       return res.status(400).json({
@@ -26,6 +26,32 @@ export async function signup(req, res) {
         success: false,
         message: "Invalid role. Must be one of: " + ROLES.join(", "),
       });
+    }
+
+    let doctorForPatient = null;
+    if (role === "Patient") {
+      const doctorRef = doctorId || doctorFromBody;
+      if (!doctorRef) {
+        return res.status(400).json({
+          success: false,
+          message: "Doctor is required when signing up as a Patient.",
+        });
+      }
+
+      doctorForPatient = await User.findById(doctorRef);
+      if (!doctorForPatient) {
+        return res.status(400).json({
+          success: false,
+          message: "Selected doctor not found.",
+        });
+      }
+
+      if (doctorForPatient.role !== "Doctor") {
+        return res.status(400).json({
+          success: false,
+          message: "Selected user is not registered as a Doctor.",
+        });
+      }
     }
 
     const existing = await User.findOne({ username });
@@ -42,7 +68,18 @@ export async function signup(req, res) {
       passwordHash,
       role,
       fullName,
+      ...(role === "Patient" && doctorForPatient
+        ? {
+            doctor: doctorForPatient._id,
+          }
+        : {}),
     });
+
+    if (role === "Patient" && doctorForPatient) {
+      await User.findByIdAndUpdate(doctorForPatient._id, {
+        $addToSet: { myPatients: user._id },
+      });
+    }
 
     res.status(201).json({
       success: true,
@@ -87,7 +124,7 @@ export async function login(req, res) {
       });
     }
 
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username }).populate("doctor", "fullName username");
     if (!user) {
       return res.status(401).json({
         success: false,
@@ -110,15 +147,25 @@ export async function login(req, res) {
       });
     }
 
+    const userPayload = {
+      id: user._id,
+      username: user.username,
+      role: user.role,
+      fullName: user.fullName,
+    };
+    if (user.role === "Patient") {
+      userPayload.hashIds = user.hashIds || [];
+      if (user.doctor) {
+        userPayload.doctorId = user.doctor._id.toString();
+        userPayload.doctorName = user.doctor.fullName;
+        userPayload.doctorUsername = user.doctor.username;
+      }
+    }
+
     res.json({
       success: true,
       message: "Login successful.",
-      user: {
-        id: user._id,
-        username: user.username,
-        role: user.role,
-        fullName: user.fullName,
-      },
+      user: userPayload,
     });
   } catch (err) {
     console.error("Login error:", err);

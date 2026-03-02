@@ -21,6 +21,8 @@ import express from "express";
 import cors from "cors";
 import { connectDB, isConnected, getDatabaseTarget, getActualConnection } from "./config/db.js";
 import authRoutes from "./routes/auth.js";
+import patientRoutes from "./routes/patients.js";
+import doctorRoutes from "./routes/doctors.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -41,6 +43,8 @@ app.get("/api/health", (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/patients", patientRoutes);
+app.use("/api/doctors", doctorRoutes);
 
 app.listen(PORT, () => {
   console.log(`MediVault API running at http://localhost:${PORT}`);

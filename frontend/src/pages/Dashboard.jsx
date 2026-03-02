@@ -69,8 +69,16 @@ export default function Dashboard() {
     const parsed = JSON.parse(stored);
     const roleLower = (role || "").toLowerCase();
     if (!ROLES.includes(roleLower) || parsed.role.toLowerCase() !== roleLower) {
-      // Redirect to their actual role dashboard
       navigate("/dashboard/" + parsed.role.toLowerCase(), { replace: true });
+      return;
+    }
+    // Doctors and patients use dedicated layouts with sidebar
+    if (roleLower === "doctor") {
+      navigate("/dashboard/doctor", { replace: true });
+      return;
+    }
+    if (roleLower === "patient") {
+      navigate("/dashboard/patient", { replace: true });
       return;
     }
     setUser(parsed);

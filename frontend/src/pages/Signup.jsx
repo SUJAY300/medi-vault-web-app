@@ -1,7 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { signup } from "../api/auth";
 import { ROLE_CONFIG } from "../constants/roles";
+import { getDoctors } from "../api/doctors";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -12,6 +13,31 @@ export default function Signup() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
+  const [doctors, setDoctors] = useState([]);
+  const [doctorId, setDoctorId] = useState("");
+  const [doctorsLoading, setDoctorsLoading] = useState(false);
+  const [doctorsError, setDoctorsError] = useState("");
+
+  useEffect(() => {
+    async function fetchDoctors() {
+      if (role !== "Patient") return;
+      setDoctorsError("");
+      setDoctorsLoading(true);
+      try {
+        const data = await getDoctors();
+        if (data.success) {
+          setDoctors(data.doctors);
+        } else {
+          setDoctorsError(data.message || "Failed to load doctors");
+        }
+      } catch (err) {
+        setDoctorsError(err.message || "Failed to load doctors");
+      } finally {
+        setDoctorsLoading(false);
+      }
+    }
+    fetchDoctors();
+  }, [role]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -19,7 +45,7 @@ export default function Signup() {
     setSuccess("");
     setLoading(true);
     try {
-      await signup({ username, password, role, fullName });
+      await signup({ username, password, role, fullName, doctorId });
       setSuccess("Account created. Redirecting to login…");
       setTimeout(() => navigate("/login"), 1500);
     } catch (err) {
@@ -96,6 +122,39 @@ export default function Signup() {
               autoComplete="username"
             />
           </div>
+          {role === "Patient" && (
+            <div className="auth-field">
+              <label className="auth-label" htmlFor="signup-doctor">
+                Select your doctor
+              </label>
+              <select
+                id="signup-doctor"
+                className="auth-input"
+                value={doctorId}
+                onChange={(e) => setDoctorId(e.target.value)}
+                required
+                disabled={doctorsLoading || doctors.length === 0}
+              >
+                <option value="">
+                  {doctorsLoading
+                    ? "Loading doctors..."
+                    : doctors.length === 0
+                    ? "No doctors available"
+                    : "Choose a doctor"}
+                </option>
+                {doctors.map((doc) => (
+                  <option key={doc._id} value={doc._id}>
+                    {doc.fullName} ({doc.username})
+                  </option>
+                ))}
+              </select>
+              {doctorsError && (
+                <p className="auth-error" role="alert" style={{ marginTop: "0.5rem" }}>
+                  {doctorsError}
+                </p>
+              )}
+            </div>
+          )}
           <div className="auth-field">
             <label className="auth-label" htmlFor="signup-password">
               Password
