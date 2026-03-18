@@ -1,0 +1,470 @@
+{
+    "patient_information": {
+        "patient_name": "Porter, Stephen D",
+        "patient_id": "M000139",
+        "dob": "1966-08-06",
+        "age": 57,
+        "gender": "M",
+        "address": "7428 Jones Stream Apt. 316",
+        "city": "Thomaston",
+        "state": "IN",
+        "zip": "79218",
+        "admission_id": "A000172",
+        "admission_date": "2023-06-12",
+        "discharge_date": "2023-06-16"
+    },
+    "admission_summary": {
+        "chief_complaint": "Low back pain and inability to ambulate",
+        "history_of_present_illness": "Mr. Stephen Porter, a 57-year-old male with a history of ESRD on home HD, thyroid cancer, HTN, lumbar spondylosis with radiculopathy, and CAD s/p CABG, presents with severe low back pain and inability to ambulate. Onset: Patient reports onset of symptoms approximately one month ago following a motor vehicle accident where he was rear-ended. The pain acutely worsened recently, prompting him to contact his PCP's office on the day of presentation. Location: Low back with radiation down the back of both legs. Duration: One month, with acute exacerbation. Character: Patient describes the pain as sharp and shooting. Alleviating/Aggravating Factors: Pain is exacerbated by movement and attempts to ambulate. Alleviating factors are not clearly identified. Radiation: Pain radiates down the back of both legs. Timing: Constant pain with recent acute worsening. Severity: Severe enough to impair ambulation, suggesting 9-10/10 on pain scale. Associated Symptoms: Patient denies bowel or bladder incontinence, saddle anesthesia, fever, or chills. He reports significant spinal tenderness and weakness in the lower extremities, being unable to stand or walk without a cane. In the ED, the patient was noted to be hypertensive with BP up to 200s/90s, likely due to pain and missed HD session.",
+        "assessment": "57-year-old male with hx of ESRD on home HD, thyroid cancer, HTN, lumbar spondylosis with radiculopathy, and CAD s/p CABG presents with severe low back pain and inability to ambulate. Pain onset 1 month ago after MVA, acutely worsened recently. Pain radiates down both legs, exacerbated by movement. Patient hypertensive in ED (BP 200s/90s). Unable to stand or walk without cane. Denies bowel/bladder incontinence or saddle anesthesia.",
+        "differential_diagnosis": [
+            "Acute exacerbation of chronic lumbar radiculopathy",
+            "Spinal stenosis",
+            "Cauda equina syndrome",
+            "Epidural abscess",
+            "Vertebral osteomyelitis",
+            "Pathological vertebral fracture"
+        ],
+        "primary_diagnosis": "Acute exacerbation of chronic lumbar radiculopathy",
+        "secondary_diagnoses": [
+            "ESRD on home HD",
+            "Hypertensive urgency",
+            "CAD s/p CABG",
+            "History of thyroid cancer",
+            "Lumbar spondylosis"
+        ],
+        "plan": {
+            "diagnostic_plan": [
+                "MRI lumbar spine without contrast",
+                "X-ray lumbar spine AP/Lateral",
+                "CBC, CMP, CRP, ESR",
+                "Urinalysis",
+                "EKG",
+                "Neurology consult for EMG/NCS if needed"
+            ],
+            "therapeutic_plan": [
+                "Pain management: IV hydromorphone 0.5-1mg q3h PRN",
+                "Muscle relaxant: Cyclobenzaprine 10mg PO TID",
+                "Anti-inflammatory: Methylprednisolone 125mg IV q24h",
+                "BP control: Amlodipine 10mg PO daily, titrate PRN",
+                "Resume home HD schedule",
+                "DVT prophylaxis: Enoxaparin 40mg SQ daily"
+            ],
+            "follow_up_plan": [
+                "Neurosurgery consult for surgical evaluation",
+                "Physical therapy evaluation and treatment",
+                "Nephrology follow-up for HD management",
+                "Outpatient follow-up with PCP within 1 week of discharge"
+            ],
+            "consultations": [
+                "Nephrology for HD management",
+                "Neurosurgery for surgical evaluation",
+                "Physical therapy for mobilization assessment and treatment plan",
+                "Pain management service for optimizing pain control"
+            ]
+        }
+    },
+    "medical_history": {
+        "chronic_conditions": [
+            "End-stage renal disease (ESRD) on home hemodialysis",
+            "Hypertension",
+            "Coronary artery disease (CAD) status post coronary artery bypass graft (CABG)",
+            "Lumbar spondylosis with radiculopathy",
+            "Thyroid cancer (status post treatment)"
+        ],
+        "past_illnesses": [
+            "Myocardial infarction (leading to CABG)",
+            "Chronic kidney disease progression to ESRD"
+        ],
+        "surgeries": [
+            "Coronary artery bypass graft (CABG) - 5 years ago",
+            "Total thyroidectomy for thyroid cancer - 8 years ago",
+            "Arteriovenous fistula creation for hemodialysis access - 3 years ago"
+        ],
+        "hospitalizations": [
+            "Admission for CABG - 5 years ago",
+            "Admission for thyroidectomy - 8 years ago",
+            "Multiple admissions for ESRD-related complications in the past 3 years"
+        ],
+        "allergies": [
+            "No known drug allergies"
+        ],
+        "medications": [
+            "Amlodipine 10mg daily",
+            "Metoprolol 50mg twice daily",
+            "Atorvastatin 40mg daily",
+            "Aspirin 81mg daily",
+            "Levothyroxine 125mcg daily",
+            "Calcium acetate 667mg with meals",
+            "Erythropoietin injection three times weekly",
+            "Gabapentin 300mg three times daily for radiculopathy"
+        ],
+        "family_history": [
+            "Father: Died of myocardial infarction at age 65",
+            "Mother: Hypertension, alive at 80",
+            "Siblings: Brother with type 2 diabetes"
+        ],
+        "social_history": {
+            "occupation": "Retired accountant",
+            "marital_status": "Married",
+            "children": "Two adult children",
+            "smoking": "Former smoker, quit 10 years ago",
+            "alcohol": "Occasional, less than 1 drink per week",
+            "exercise": "Limited due to back pain, previously active"
+        },
+        "preventive_care": [
+            "Last Colonoscopy: 2 years ago, normal",
+            "Last Echocardiogram: 1 year ago, showed preserved EF",
+            "Vaccinations: Up to date, including annual flu shots and COVID-19 vaccination",
+            "Cancer Screening: Regular thyroid ultrasounds and thyroglobulin levels post thyroidectomy"
+        ]
+    },
+    "physical_examination": {
+        "general_appearance": "57-year-old male in moderate distress due to pain. Alert, cooperative, and well-nourished.",
+        "vital_signs": {
+            "blood_pressure": "180/85 mmHg",
+            "heart_rate": "88 bpm",
+            "respiratory_rate": "18 breaths/min",
+            "temperature": "36.8°C",
+            "oxygen_saturation": "97% on room air"
+        },
+        "system_examination": {
+            "heent": "PERRL, EOMI. No scleral icterus. Oropharynx clear. No JVD.",
+            "cardiovascular": "RRR, no murmurs, rubs, or gallops. S1/S2 normal. Peripheral pulses 2+ bilaterally. No edema.",
+            "respiratory": "CTAB, no wheezes or crackles. Respirations non-labored.",
+            "abdominal": "Soft, non-tender, non-distended. BS+. No hepatosplenomegaly.",
+            "musculoskeletal": "Severe tenderness to palpation over lumbar spine. Positive SLR bilaterally. Decreased ROM in lumbar spine due to pain. Unable to stand or walk without assistance. Motor strength 4/5 in bilateral lower extremities.",
+            "neurological": "A&Ox3. CN II-XII intact. DTRs 2+ and symmetric. Sensation intact to light touch. No saddle anesthesia.",
+            "skin": "Warm and dry. No rashes or lesions. Surgical scars noted on chest (CABG) and neck (thyroidectomy)."
+        }
+    },
+    "progress_notes": [
+        {
+            "date": "2023-06-12",
+            "time": "08:00",
+            "subjective": "57-year-old male with ESRD on home HD, thyroid cancer, HTN, lumbar spondylosis, and CAD s/p CABG presents with severe low back pain and inability to ambulate. Pain began 1 month ago after MVA, acutely worsened recently. Pain radiates down both legs, exacerbated by movement. Denies bowel/bladder incontinence or saddle anesthesia. Reports significant spinal tenderness and weakness in lower extremities.",
+            "objective": "Vital Signs: Blood Pressure 180/85 mmHg, Heart Rate 88 bpm, Respiratory Rate 18/min, Temperature 36.8°C, Oxygen Saturation 97% on room air. Physical Exam: In moderate distress due to pain. Severe tenderness over lumbar spine. Positive SLR bilaterally. Decreased ROM in lumbar spine. Unable to stand or walk without assistance. Motor strength 4/5 in bilateral lower extremities. No saddle anesthesia.",
+            "assessment": "Acute exacerbation of chronic lumbar radiculopathy, ESRD on home HD, Hypertensive urgency",
+            "plan": "Admit to medical floor. MRI lumbar spine without contrast. X-ray lumbar spine AP/Lateral. Labs: CBC, CMP, CRP, ESR, UA. EKG. Pain management: IV hydromorphone 0.5-1mg q3h PRN. Cyclobenzaprine 10mg PO TID. Methylprednisolone 125mg IV q24h. Amlodipine 10mg PO daily for BP control. Resume home HD schedule. Neurosurgery and Nephrology consults."
+        },
+        {
+            "date": "2023-06-13",
+            "time": "09:00",
+            "subjective": "Patient reports mild improvement in pain control. Still having difficulty with movement. No new symptoms. Denies bowel/bladder issues.",
+            "objective": "Vital Signs: Blood Pressure 160/80 mmHg, Heart Rate 82 bpm, Respiratory Rate 16/min, Temperature 36.6°C, Oxygen Saturation 98% on room air. Physical Exam: Less distressed. Lumbar tenderness persists. SLR still positive. Slight improvement in ROM. Motor strength unchanged.",
+            "assessment": "Improving lumbar radiculopathy. BP better controlled. Awaiting MRI results.",
+            "plan": "Continue current pain management regimen. Adjust BP meds: increase Amlodipine to 15mg daily. Physical therapy evaluation. Review MRI results when available. Continue HD as scheduled."
+        },
+        {
+            "date": "2023-06-14",
+            "time": "10:00",
+            "subjective": "Patient reports further improvement in pain. Able to sit up in bed with less discomfort. No new complaints.",
+            "objective": "Vital Signs: Blood Pressure 145/75 mmHg, Heart Rate 78 bpm, Respiratory Rate 16/min, Temperature 36.7°C, Oxygen Saturation 98% on room air. Physical Exam: Improved affect. Lumbar tenderness decreased. SLR improved. Increased ROM in lumbar spine. Motor strength 4+/5 in lower extremities.",
+            "assessment": "Continuing improvement in lumbar radiculopathy. BP well controlled. MRI shows severe spinal stenosis at L4-L5.",
+            "plan": "Gradually decrease IV pain meds, transition to oral. Continue PT and start gentle mobilization. Neurosurgery recommends conservative management. Maintain current BP management. Discuss potential for discharge tomorrow if improvement continues."
+        },
+        {
+            "date": "2023-06-15",
+            "time": "09:00",
+            "subjective": "Patient reports significant improvement. Pain well controlled with oral meds. Able to ambulate short distances with walker.",
+            "objective": "Vital Signs: Blood Pressure 138/72 mmHg, Heart Rate 76 bpm, Respiratory Rate 16/min, Temperature 36.5°C, Oxygen Saturation 99% on room air. Physical Exam: Alert and in good spirits. Minimal lumbar tenderness. Negative SLR. Further improved ROM. Motor strength 5/5 in lower extremities.",
+            "assessment": "Resolving lumbar radiculopathy. BP well controlled. Ready for discharge.",
+            "plan": "Discharge home with outpatient PT. Prescribe oral pain medications and muscle relaxants. Follow up with Neurosurgery in 2 weeks. Resume home HD schedule. Instruct on red flag symptoms. Follow up with PCP in 1 week."
+        },
+        {
+            "date": "2023-06-16",
+            "time": "10:00",
+            "subjective": "Patient reports continued improvement. Pain well managed. No new concerns. Ready for discharge.",
+            "objective": "Vital Signs: Blood Pressure 135/70 mmHg, Heart Rate 74 bpm, Respiratory Rate 16/min, Temperature 36.6°C, Oxygen Saturation 99% on room air. Physical Exam: Alert and comfortable. Minimal lumbar tenderness. Full ROM. Ambulating well with walker.",
+            "assessment": "Resolved acute exacerbation of lumbar radiculopathy. BP well controlled. ESRD stable.",
+            "plan": "Discharge home today. Provide prescriptions and follow-up appointments. Review discharge instructions and red flag symptoms. Ensure understanding of medication regimen and HD schedule."
+        }
+    ],
+    "lab_reports": [
+        {
+            "report_date": "2023-10-01",
+            "test_name": "Comprehensive Metabolic Panel",
+            "parameters": [
+                {
+                    "name": "Sodium",
+                    "value": "138",
+                    "unit": "mEq/L",
+                    "reference_range": "135-145 mEq/L",
+                    "flag": "WNL"
+                },
+                {
+                    "name": "Potassium",
+                    "value": "4.2",
+                    "unit": "mEq/L",
+                    "reference_range": "3.5-5.1 mEq/L",
+                    "flag": "WNL"
+                },
+                {
+                    "name": "Chloride",
+                    "value": "102",
+                    "unit": "mEq/L",
+                    "reference_range": "98-107 mEq/L",
+                    "flag": "WNL"
+                },
+                {
+                    "name": "CO2",
+                    "value": "24",
+                    "unit": "mEq/L",
+                    "reference_range": "22-30 mEq/L",
+                    "flag": "WNL"
+                },
+                {
+                    "name": "BUN",
+                    "value": "18",
+                    "unit": "mg/dL",
+                    "reference_range": "7-20 mg/dL",
+                    "flag": "WNL"
+                },
+                {
+                    "name": "Creatinine",
+                    "value": "1.1",
+                    "unit": "mg/dL",
+                    "reference_range": "0.6-1.2 mg/dL",
+                    "flag": "WNL"
+                },
+                {
+                    "name": "Glucose",
+                    "value": "110",
+                    "unit": "mg/dL",
+                    "reference_range": "70-100 mg/dL",
+                    "flag": "H"
+                },
+                {
+                    "name": "Calcium",
+                    "value": "9.2",
+                    "unit": "mg/dL",
+                    "reference_range": "8.5-10.2 mg/dL",
+                    "flag": "WNL"
+                },
+                {
+                    "name": "Total Protein",
+                    "value": "7.0",
+                    "unit": "g/dL",
+                    "reference_range": "6.0-8.3 g/dL",
+                    "flag": "WNL"
+                },
+                {
+                    "name": "Albumin",
+                    "value": "3.8",
+                    "unit": "g/dL",
+                    "reference_range": "3.5-5.0 g/dL",
+                    "flag": "WNL"
+                },
+                {
+                    "name": "Total Bilirubin",
+                    "value": "0.8",
+                    "unit": "mg/dL",
+                    "reference_range": "0.3-1.2 mg/dL",
+                    "flag": "WNL"
+                },
+                {
+                    "name": "Alkaline Phosphatase",
+                    "value": "75",
+                    "unit": "U/L",
+                    "reference_range": "30-120 U/L",
+                    "flag": "WNL"
+                },
+                {
+                    "name": "AST",
+                    "value": "32",
+                    "unit": "U/L",
+                    "reference_range": "10-40 U/L",
+                    "flag": "WNL"
+                },
+                {
+                    "name": "ALT",
+                    "value": "28",
+                    "unit": "U/L",
+                    "reference_range": "7-56 U/L",
+                    "flag": "WNL"
+                }
+            ]
+        },
+        {
+            "report_date": "2023-10-01",
+            "test_name": "Complete Blood Count",
+            "parameters": [
+                {
+                    "name": "WBC",
+                    "value": "9.2",
+                    "unit": "K/uL",
+                    "reference_range": "4.5-11.0 K/uL",
+                    "flag": "WNL"
+                },
+                {
+                    "name": "RBC",
+                    "value": "4.8",
+                    "unit": "M/uL",
+                    "reference_range": "4.5-5.9 M/uL",
+                    "flag": "WNL"
+                },
+                {
+                    "name": "Hemoglobin",
+                    "value": "14.2",
+                    "unit": "g/dL",
+                    "reference_range": "13.5-17.5 g/dL",
+                    "flag": "WNL"
+                },
+                {
+                    "name": "Hematocrit",
+                    "value": "42",
+                    "unit": "%",
+                    "reference_range": "41-53%",
+                    "flag": "WNL"
+                },
+                {
+                    "name": "MCV",
+                    "value": "88",
+                    "unit": "fL",
+                    "reference_range": "80-100 fL",
+                    "flag": "WNL"
+                },
+                {
+                    "name": "MCH",
+                    "value": "29.6",
+                    "unit": "pg",
+                    "reference_range": "27-31 pg",
+                    "flag": "WNL"
+                },
+                {
+                    "name": "MCHC",
+                    "value": "33.8",
+                    "unit": "g/dL",
+                    "reference_range": "32-36 g/dL",
+                    "flag": "WNL"
+                },
+                {
+                    "name": "RDW",
+                    "value": "13.2",
+                    "unit": "%",
+                    "reference_range": "11.5-14.5%",
+                    "flag": "WNL"
+                },
+                {
+                    "name": "Platelet Count",
+                    "value": "245",
+                    "unit": "K/uL",
+                    "reference_range": "150-450 K/uL",
+                    "flag": "WNL"
+                }
+            ]
+        },
+        {
+            "report_date": "2023-10-03",
+            "test_name": "Lipid Panel",
+            "parameters": [
+                {
+                    "name": "Total Cholesterol",
+                    "value": "210",
+                    "unit": "mg/dL",
+                    "reference_range": "<200 mg/dL",
+                    "flag": "H"
+                },
+                {
+                    "name": "Triglycerides",
+                    "value": "165",
+                    "unit": "mg/dL",
+                    "reference_range": "<150 mg/dL",
+                    "flag": "H"
+                },
+                {
+                    "name": "HDL Cholesterol",
+                    "value": "42",
+                    "unit": "mg/dL",
+                    "reference_range": ">40 mg/dL",
+                    "flag": "WNL"
+                },
+                {
+                    "name": "LDL Cholesterol (calculated)",
+                    "value": "135",
+                    "unit": "mg/dL",
+                    "reference_range": "<100 mg/dL",
+                    "flag": "H"
+                }
+            ]
+        },
+        {
+            "report_date": "2023-10-05",
+            "test_name": "Thyroid Function Tests",
+            "parameters": [
+                {
+                    "name": "TSH",
+                    "value": "2.8",
+                    "unit": "mIU/L",
+                    "reference_range": "0.4-4.0 mIU/L",
+                    "flag": "WNL"
+                },
+                {
+                    "name": "Free T4",
+                    "value": "1.2",
+                    "unit": "ng/dL",
+                    "reference_range": "0.8-1.8 ng/dL",
+                    "flag": "WNL"
+                }
+            ]
+        }
+    ],
+    "discharge_summary": {
+        "reason_for_admission": "Mr. Porter, a 57-year-old male with a history of ESRD on home HD, thyroid cancer, HTN, lumbar spondylosis with radiculopathy, and CAD s/p CABG, was admitted due to severe low back pain and inability to ambulate. The pain began one month ago following a motor vehicle accident and acutely worsened prior to admission.",
+        "hospital_course": "During his 5-day stay, Mr. Porter underwent evaluation and treatment for acute exacerbation of chronic lumbar radiculopathy. Key events included: 1. MRI of the lumbar spine revealed severe spinal stenosis at L4-L5 and L5-S1 levels with bilateral nerve root compression. 2. Pain management: Initially treated with IV hydromorphone, gradually transitioned to oral pain medications. 3. Physical therapy: Initiated for gentle mobilization and gait training. 4. Hypertension management: Amlodipine dose was increased to 15mg daily for better BP control. 5. Neurosurgery consultation: Recommended conservative management. 6. Continued home hemodialysis schedule. 7. Gradual improvement in pain and mobility throughout the stay, progressing from being unable to ambulate to walking short distances with a walker.",
+        "discharge_diagnoses": [
+            "Acute exacerbation of chronic lumbar radiculopathy due to severe spinal stenosis",
+            "End-stage renal disease on home hemodialysis",
+            "Hypertension",
+            "Coronary artery disease status post CABG",
+            "History of thyroid cancer"
+        ],
+        "medications_at_discharge": [
+            {
+                "name": "Amlodipine",
+                "dosage": "15mg",
+                "route": "PO",
+                "frequency": "Daily"
+            },
+            {
+                "name": "Metoprolol Tartrate",
+                "dosage": "25mg",
+                "route": "PO",
+                "frequency": "Twice daily"
+            },
+            {
+                "name": "Aspirin",
+                "dosage": "81mg",
+                "route": "PO",
+                "frequency": "Daily"
+            },
+            {
+                "name": "Oxycodone",
+                "dosage": "5-10mg",
+                "route": "PO",
+                "frequency": "Every 4-6 hours as needed for pain"
+            },
+            {
+                "name": "Cyclobenzaprine",
+                "dosage": "10mg",
+                "route": "PO",
+                "frequency": "Three times daily as needed for muscle spasms"
+            },
+            {
+                "name": "Levothyroxine",
+                "dosage": "125mcg",
+                "route": "PO",
+                "frequency": "Daily"
+            }
+        ],
+        "follow_up_plans": [
+            "Follow up with primary care physician in 1 week",
+            "Neurosurgery appointment in 2 weeks for reassessment",
+            "Continue outpatient physical therapy 2-3 times per week",
+            "Resume home hemodialysis schedule as previously established",
+            "Pain management clinic appointment in 2 weeks for medication adjustment if needed"
+        ],
+        "discharge_instructions": "Activity Restrictions: Gradually increase activity as tolerated. Use walker for ambulation. Avoid heavy lifting or strenuous activities. Dietary Recommendations: Continue renal diet as prescribed by nephrologist. Limit sodium intake to help control blood pressure. Medication Management: Take all medications as prescribed. Use pain medications only as needed and gradually decrease use as pain improves. Signs Requiring Attention: Seek immediate medical attention if experiencing: - Severe, uncontrolled pain - New or worsening weakness in legs - Loss of bladder or bowel control - Fever above 38°C (100.4°F) - Shortness of breath or chest pain",
+        "additional_notes": "Social Support: Patient lives with spouse who will assist with care at home. Equipment Needs: Walker provided for home use. Educational Resources: Patient and spouse educated on proper body mechanics, pain management strategies, and importance of adherence to medication and dialysis schedules."
+    }
+}
