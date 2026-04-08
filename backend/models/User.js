@@ -10,6 +10,14 @@ const userSchema = new mongoose.Schema(
       enum: ["Student", "Patient", "Doctor", "Nurse", "Intern"],
     },
     fullName: { type: String, required: true, trim: true },
+    // Optional: wallet used for blockchain features (MetaMask)
+    walletAddress: {
+      type: String,
+      trim: true,
+      lowercase: true,
+      unique: true,
+      sparse: true,
+    },
     // For patients: reference to their primary doctor
     doctor: {
       type: mongoose.Schema.Types.ObjectId,
@@ -36,7 +44,8 @@ const userSchema = new mongoose.Schema(
 // Ensure myPatients exists only on doctor documents; never persist it for patients
 userSchema.pre("save", function (next) {
   if (this.role !== "Doctor") {
-    this.$unset("myPatients");
+    // In document middleware, unset by setting the path to undefined.
+    this.myPatients = undefined;
   }
   next();
 });

@@ -2,3 +2,26 @@ node_modules
 .env
 backend/.env
 frontend/.env
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Frontend build outputs / tooling caches
+dist/
+build/
+.vite/
+.parcel-cache/
+.next/
+.nuxt/
+.turbo/
+
+# Logs & local DB files
+*.log
+*.sqlite
+*.sqlite3

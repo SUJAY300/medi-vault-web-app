@@ -13,6 +13,7 @@ import Chatbot from "./pages/doctor/Chatbot";
 import PatientDashboardHome from "./pages/patient/PatientDashboardHome";
 import PatientMyFiles from "./pages/patient/PatientMyFiles";
 import PatientDoctor from "./pages/patient/PatientDoctor";
+import PatientAccess from "./pages/patient/PatientAccess";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route index element={<PatientDashboardHome />} />
         <Route path="files" element={<PatientMyFiles />} />
         <Route path="doctor" element={<PatientDoctor />} />
+        <Route path="access" element={<PatientAccess />} />
       </Route>
       <Route path="/dashboard/:role" element={<Dashboard />} />
     </Routes>

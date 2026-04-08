@@ -4,9 +4,23 @@ from json_repair import repair_json
 import os
 
 def extract_json_strict(text):
-    """Extracts the first valid JSON object from model output."""
-    match = re.search(r'\{(?:[^{}]|(?R))*\}', text, re.DOTALL)
-    return match.group(0) if match else None
+    """Extract the first valid JSON object substring from model output.
+
+    The previous implementation used a recursive regex that is not supported by Python's `re`
+    and could crash when JSON repair fails.
+    """
+    if not isinstance(text, str):
+        return None
+    start = text.find("{")
+    if start == -1:
+        return None
+
+    decoder = json.JSONDecoder()
+    try:
+        _obj, end = decoder.raw_decode(text[start:])
+        return text[start : start + end]
+    except Exception:
+        return None
 
 def validate_and_parse_json(raw_output):
     """Attempts multiple repair methods to return parsed JSON."""

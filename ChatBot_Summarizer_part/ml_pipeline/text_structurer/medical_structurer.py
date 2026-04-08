@@ -44,7 +44,8 @@ def call_llm_api(prompt, retries=5, delay=5):
             start_time = time.time()
             response = requests.post(API_URL, headers=headers, json=payload, timeout=120)
             latency = time.time() - start_time
-            print(f"[INFO] Request attempt {attempt} → HTTP {response.status_code} | {latency:.2f}s")
+            # Avoid unicode symbols in logs (Windows consoles may use cp1252)
+            print(f"[INFO] Request attempt {attempt} -> HTTP {response.status_code} | {latency:.2f}s")
 
             if response.status_code == 200:
                 data = response.json()
@@ -57,7 +58,7 @@ def call_llm_api(prompt, retries=5, delay=5):
                 return None
 
             elif response.status_code == 429:
-                # Too many requests → exponential backoff
+                # Too many requests -> exponential backoff
                 print(f"[WARN] Rate limit hit (429). Retrying in {delay}s...")
                 time.sleep(delay)
                 delay *= 2  # Exponential backoff

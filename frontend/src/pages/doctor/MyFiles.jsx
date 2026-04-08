@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { getPatients } from "../../api/patients";
+import { useWeb3 } from "../../blockchain/Web3Context";
 
 const styles = {
   page: {
@@ -66,11 +67,33 @@ const styles = {
     borderRadius: "var(--radius)",
     background: "var(--color-bg)",
     border: "1px solid var(--color-border)",
-    fontFamily: "monospace",
-    fontSize: "0.875rem",
     color: "var(--color-text)",
-    wordBreak: "break-all",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: "0.75rem",
   },
+  hashText: { fontFamily: "monospace", fontSize: "0.875rem", wordBreak: "break-all" },
+  actions: { display: "flex", gap: "0.5rem", flexWrap: "wrap" },
+  btnSm: {
+    padding: "0.45rem 0.7rem",
+    borderRadius: "var(--radius)",
+    border: "1px solid var(--color-border)",
+    background: "transparent",
+    color: "var(--color-text)",
+    cursor: "pointer",
+    fontWeight: 650,
+    fontSize: "0.85rem",
+  },
+  badge: {
+    padding: "0.15rem 0.5rem",
+    borderRadius: 999,
+    border: "1px solid var(--color-border)",
+    fontSize: "0.75rem",
+    color: "var(--color-text-muted)",
+    whiteSpace: "nowrap",
+  },
+  smallMuted: { color: "var(--color-text-muted)", fontSize: "0.9rem" },
   placeholderDetail: {
     color: "var(--color-text-muted)",
     fontSize: "0.9375rem",
@@ -107,10 +130,15 @@ const styles = {
 
 export default function MyFiles() {
   const [user, setUser] = useState(null);
+  const { isConnected, connectWallet, isConnecting, verifyDocumentOnChain } = useWeb3();
   const [patients, setPatients] = useState([]);
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [verifying, setVerifying] = useState("");
+  const [verifyResult, setVerifyResult] = useState({});
+
+  const GATEWAY = import.meta.env.VITE_IPFS_GATEWAY || "https://gateway.pinata.cloud/ipfs/";
 
   useEffect(() => {
     const stored = localStorage.getItem("medivault_user");
@@ -138,6 +166,22 @@ export default function MyFiles() {
     fetchPatients();
   }, [user]);
 
+  async function handleVerify(hash) {
+    if (!isConnected) return;
+    setVerifying(hash);
+    try {
+      const res = await verifyDocumentOnChain({ ipfsHash: hash });
+      setVerifyResult((prev) => ({
+        ...prev,
+        [hash]: { ok: Boolean(res?.[0]), patient: res?.[1], uploadedBy: res?.[2] },
+      }));
+    } catch {
+      setVerifyResult((prev) => ({ ...prev, [hash]: { ok: false } }));
+    } finally {
+      setVerifying("");
+    }
+  }
+
   return (
     <div style={styles.page}>
       <div style={styles.header}>
@@ -148,9 +192,18 @@ export default function MyFiles() {
       </div>
 
       <div style={styles.card}>
-        <h2 style={{ fontSize: "1.25rem", fontWeight: 600, marginBottom: "1rem", color: "var(--color-text)" }}>
-          Patients under you
-        </h2>
+        <div style={{ display: "flex", justifyContent: "space-between", gap: "1rem", flexWrap: "wrap" }}>
+          <h2 style={{ fontSize: "1.25rem", fontWeight: 600, marginBottom: "1rem", color: "var(--color-text)" }}>
+            Patients under you
+          </h2>
+          {!isConnected ? (
+            <button type="button" style={styles.btnSm} onClick={connectWallet} disabled={isConnecting}>
+              {isConnecting ? "Connecting..." : "Connect MetaMask"}
+            </button>
+          ) : (
+            <div style={styles.smallMuted}>Wallet connected</div>
+          )}
+        </div>
         {loading ? (
           <div style={styles.loading}>Loading patients…</div>
         ) : error ? (
@@ -185,7 +238,33 @@ export default function MyFiles() {
                   <ul style={styles.hashList}>
                     {selectedPatient.hashIds.map((hashId, idx) => (
                       <li key={idx} style={styles.hashItem}>
-                        {hashId}
+                        <div style={{ display: "flex", flexDirection: "column", gap: 6, minWidth: 0 }}>
+                          <div style={styles.hashText}>{hashId}</div>
+                          {verifyResult[hashId] ? (
+                            <div style={styles.badge}>
+                              {verifyResult[hashId].ok ? "On-chain: ✅ verified" : "On-chain: ❌ not found"}
+                            </div>
+                          ) : null}
+                        </div>
+                        <div style={styles.actions}>
+                          <a
+                            href={GATEWAY + hashId}
+                            target="_blank"
+                            rel="noreferrer"
+                            style={{ ...styles.btnSm, textDecoration: "none" }}
+                          >
+                            Open IPFS
+                          </a>
+                          <button
+                            type="button"
+                            style={styles.btnSm}
+                            onClick={() => handleVerify(hashId)}
+                            disabled={!isConnected || verifying === hashId}
+                            title={!isConnected ? "Connect MetaMask to verify on-chain" : "Verify on blockchain"}
+                          >
+                            {verifying === hashId ? "Verifying..." : "Verify"}
+                          </button>
+                        </div>
                       </li>
                     ))}
                   </ul>

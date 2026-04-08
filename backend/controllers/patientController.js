@@ -17,7 +17,7 @@ export async function getPatients(req, res) {
     }
 
     const patients = await User.find(filter)
-      .select("_id username fullName role createdAt hashIds")
+      .select("_id username fullName role createdAt hashIds walletAddress")
       .sort({ createdAt: -1 });
 
     // Format patients with patient ID (P-XXX format)
@@ -29,6 +29,7 @@ export async function getPatients(req, res) {
       role: patient.role,
       createdAt: patient.createdAt,
       hashIds: patient.hashIds || [],
+      walletAddress: patient.walletAddress || "",
     }));
 
     res.json({

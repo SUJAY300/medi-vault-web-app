@@ -1,0 +1,35 @@
+/* src/index.css */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:           #060b14;
+  --surface:      #0d1526;
+  --surface2:     #111d35;
+  --surface3:     #162040;
+  --border:       rgba(48, 100, 200, 0.18);
+  --border-bright:rgba(80, 140, 255, 0.35);
+  --accent:       #3b82f6;
+  --accent2:      #06b6d4;
+  --accent3:      #8b5cf6;
+  --green:        #10b981;
+  --red:          #ef4444;
+  --amber:        #f59e0b;
+  --text:         #e2eaf8;
+  --text-muted:   #6b8ab4;
+  --text-dim:     #3d5478;
+}
+
+html, body, #root {
+  height: 100%;
+  font-family: 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--surface); }
+::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 4px; }
+
+a { color: var(--accent); text-decoration: none; }
+button { cursor: pointer; font-family: inherit; }
+input, select, textarea { font-family: inherit; }
