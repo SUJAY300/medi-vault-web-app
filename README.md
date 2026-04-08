@@ -1,120 +1,158 @@
 # MediVault – Hospital Management System
 
-A hospital management web application with role-based dashboards (Admin, Doctor, Nurse, Patient, Intern/Student), blockchain-backed medical document storage, and a Gemini-powered summarizer and chatbot for querying patient reports.
+MediVault is a hospital management web app with role-based dashboards and a medical-document workflow (IPFS/Pinata + MongoDB metadata). This repo also contains separate, work-in-progress modules for a blockchain service and an AI summarizer/chatbot service.
 
-**Stack:** React (frontend), Node.js + Express (backend), MongoDB (database) — **MERN only** (no Next.js, no TypeScript).
+## Tech stack (as of today)
+
+- **Main web app**
+  - **Frontend**: React + Vite (`frontend/`)
+  - **Backend**: Node.js + Express + Mongoose (`backend/`)
+  - **Database**: MongoDB (Atlas or local)
+  - **File storage**: IPFS via Pinata (backend route)
+- **Separate modules (WIP / run independently)**
+  - **Blockchain module**: FastAPI + Motor (`blockchain part/backend/`) + React (`blockchain part/frontend/`)
+  - **AI Summarizer/Chatbot**: FastAPI services (`ChatBot_Summarizer_part/`)
+
+> Note: There are legacy/experimental folders like `app/` and `.next/` in the repo, but the **current runnable scripts** are the Node (`backend/`) + Vite (`frontend/`) setup defined in the root `package.json`.
 
 ---
 
-## Current features
+## Current features (main app)
 
-- **Landing page** at `/` with **Login** and **Sign up** buttons.
-- **Login page** (`/login`) and **Sign up** page (`/signup`) with form UI. Backend auth and database integration will be implemented next.
+- **Frontend**
+  - Landing page (`/`)
+  - Login + Signup pages (`/login`, `/signup`)
+  - Role dashboards and layouts
+    - Doctor dashboard routes under `/dashboard/doctor/*` (patients, upload, files, chatbot placeholder)
+    - Patient dashboard routes under `/dashboard/patient/*` (files, doctor, access)
+    - Generic role route `/dashboard/:role` (uses `localStorage` for a temporary user session)
+- **Backend**
+  - Health endpoint: `GET /api/health` (shows DB connection status)
+  - Auth routes mounted at `POST /api/auth/signup` and `POST /api/auth/login`
+  - IPFS upload route mounted at `POST /api/ipfs/upload` (multipart form field: `file`)
+  - Additional API routes mounted (patients/doctors/users/reports) under:
+    - `/api/patients`
+    - `/api/doctors`
+    - `/api/users`
+    - `/api/*` (reports)
 
 ---
 
-## Project structure
-
-The repository is organized so that **blockchain**, **chatbot**, and **MERN integration** can be developed in parallel with clear ownership and integration points.
+## Repo structure (high level)
 
 ```
 medi-vault-web-app/
-├── backend/                      # Node.js + Express API
-│   ├── config/                   # DB, env, app config
-│   ├── controllers/              # HTTP handlers; delegate to services
-│   │   ├── blockchain/           # [Blockchain owner] Controllers for blockchain APIs
-│   │   └── chatbot/              # [Chatbot owner] Controllers for summarizer/chat
-│   ├── middlewares/              # Auth, validation, error handling
-│   ├── models/                   # MongoDB models (shared)
-│   ├── routes/                   # Route definitions (auth, documents, etc.)
-│   ├── services/                 # Business logic – integration boundary
-│   │   ├── blockchain/           # [Blockchain owner] Document storage, hash resolution
-│   │   └── chatbot/              # [Chatbot owner] Gemini summarizer & chatbot
-│   ├── utils/
-│   └── server.js                 # Express app entry
-│
-├── frontend/                     # React SPA (Vite)
-│   ├── public/                   # Static assets, favicon
-│   └── src/
-│       ├── pages/                # Landing, Login, Signup (and future dashboard pages)
-│       ├── components/           # Reusable and feature-specific components
-│       ├── api/                  # API client / fetch wrappers
-│       ├── context/              # React context (e.g. auth)
-│       ├── hooks/
-│       ├── App.jsx               # Routes: /, /login, /signup
-│       ├── main.jsx
-│       └── index.css
-│
-├── shared/                       # Contract layer (schemas, constants)
-│   ├── constants/                # Roles, statuses, API paths
-│   └── schemas/                  # Document/user shapes for validation
-│
-├── docs/                         # Integration and module contracts
-│   ├── INTEGRATION.md            # How blockchain & chatbot plug into the app
-│   ├── BLOCKCHAIN_API.md         # Expected blockchain service interface
-│   ├── CHATBOT_API.md            # Expected chatbot/summarizer interface
-│   └── ROLES_AND_ACCESS.md       # Role definitions and access rules
-│
-├── scripts/                      # Seed, migrations, one-off utilities
-├── prisma/                       # Prisma schema and seed (if used)
-├── package.json                  # Root scripts: install:all, backend, frontend, dev
-└── README.md                     # This file
+├── backend/                         # Node.js + Express API (main app)
+├── frontend/                        # React + Vite SPA (main app)
+├── docs/                            # Contracts / integration notes
+├── shared/                          # Shared constants/schemas (cross-module)
+├── blockchain part/                 # Separate blockchain-focused module (WIP)
+│   ├── backend/                     # FastAPI service (Motor/MongoDB)
+│   └── frontend/                    # React app (CRA)
+├── ChatBot_Summarizer_part/         # Separate AI summarizer/chatbot services (WIP)
+└── package.json                     # Root scripts (install:all, dev, etc.)
 ```
 
 ---
 
-## Module ownership
+## Quickstart (main web app)
 
-| Area | Owner | Location |
-|------|--------|----------|
-| **Blockchain storage** | Member 1 | `backend/services/blockchain/`, `backend/controllers/blockchain/`, `backend/models/blockchain/`, `backend/utils/blockchain/` |
-| **Summarizer & chatbot (Gemini)** | Member 2 | `backend/services/chatbot/`, `backend/controllers/chatbot/`, `backend/models/chatbot/`, `backend/utils/chatbot/` |
-| **MERN backend & frontend, integration** | Integration owner | Rest of `backend/`, `frontend/`, `shared/`, wiring of blockchain and chatbot into routes and UI |
+### Prerequisites
 
----
+- Node.js 18+ recommended
+- MongoDB (local or Atlas)
 
-## Integration at a glance
+### Install
 
-- **Documents:** Upload → backend calls `services/blockchain` (get hash) → store hash + metadata in MongoDB. List/fetch use MongoDB; file content (when needed) via `services/blockchain` using hash.
-- **Chatbot:** Doctor (or other allowed roles) → backend chatbot route → `services/chatbot` (Gemini) with allowed context → response to client.
+```bash
+npm run install:all
+```
 
-Details and expected interfaces: see **`docs/INTEGRATION.md`**, **`docs/BLOCKCHAIN_API.md`**, and **`docs/CHATBOT_API.md`**.
+### Run (2 terminals)
 
----
+Backend (Express, default `http://localhost:5000`):
 
-## Auth and login
+```bash
+npm run backend
+```
 
-- **Landing, Login, and Signup pages** are implemented (UI only). Backend auth endpoints and MongoDB integration will be added next.
-- When implementing auth, use `backend/routes/` and `backend/controllers/` for login/signup; keep payloads aligned with **`shared/schemas`** and enforce roles as in **`docs/ROLES_AND_ACCESS.md`**.
+Frontend (Vite, default `http://localhost:5173`):
 
----
+```bash
+npm run frontend
+```
 
-## Getting started
+Or run both together:
 
-1. **Install dependencies**
-   ```bash
-   npm run install:all
-   ```
-   Or manually: `npm install` (root), then `cd backend && npm install`, then `cd frontend && npm install`.
-
-2. **Start backend** (Node.js + Express on port 5000)
-   ```bash
-   npm run backend
-   ```
-
-3. **Start frontend** (React + Vite on port 5173)
-   ```bash
-   npm run frontend
-   ```
-
-4. Open **http://localhost:5173** for the landing page; use **Login** and **Sign up** to open the auth forms.
-
-5. (Optional) Copy `.env.example` to `backend/.env` and set `MONGODB_URI`, `FRONTEND_URL`, etc., when you add database and auth.
+```bash
+npm run dev
+```
 
 ---
 
-## Adding new features
+## Environment variables
 
-- New backend domains: add under `backend/services/<domain>/` and corresponding routes and controllers.
-- New frontend features: add under `frontend/src/components/<feature>/` and new routes in `frontend/src/App.jsx` (e.g. dashboard by role).
-- Keep **`shared/schemas`** and **`shared/constants`** in sync so all modules use the same shapes and role/status values.
+### `backend/.env` (Express API)
+
+Create `backend/.env` (do **not** commit it). Common keys used by the backend:
+
+| Key | Purpose | Example |
+|---|---|---|
+| `PORT` | Express port | `5000` |
+| `MONGODB_URI` | MongoDB connection string | `mongodb://localhost:27017/medivault` |
+| `FRONTEND_URL` | CORS allow origin | `http://localhost:5173` |
+| `PINATA_API_KEY` | Pinata API key (for IPFS uploads) | `your_pinata_key` |
+| `PINATA_SECRET_KEY` | Pinata secret | `your_pinata_secret` |
+| `IPFS_GATEWAY` | Gateway used to build URLs | `https://gateway.pinata.cloud/ipfs/` |
+
+### `frontend/.env` (Vite)
+
+Create `frontend/.env`:
+
+| Key | Purpose | Example |
+|---|---|---|
+| `VITE_CONTRACT_ADDRESS` | Smart contract address used by UI | `0x...` |
+| `VITE_CHAIN_ID` | Chain ID | `1337` |
+| `VITE_IPFS_GATEWAY` | IPFS gateway for viewing files | `https://gateway.pinata.cloud/ipfs/` |
+
+---
+
+## Running the separate modules (optional / WIP)
+
+### Blockchain module
+
+- **Backend**: `blockchain part/backend/` (FastAPI)
+  - Uses `.env` keys like `MONGODB_URL`, `DATABASE_NAME`, `GANACHE_URL`, `CONTRACT_ADDRESS`
+- **Frontend**: `blockchain part/frontend/` (React CRA)
+  - Uses `.env` keys like `REACT_APP_API_URL`, `REACT_APP_CONTRACT_ADDRESS`
+
+### AI Summarizer / Chatbot module
+
+Located under `ChatBot_Summarizer_part/` and contains FastAPI apps (entrypoints include):
+
+- `ChatBot_Summarizer_part/backend/app/main.py`
+- `ChatBot_Summarizer_part/chatbot_backend/app/main.py`
+
+It expects environment keys like:
+
+- `ALLOWED_ORIGINS` (CORS, comma-separated)
+- Gemini / Groq API keys (kept in `ChatBot_Summarizer_part/.env`, **do not commit**)
+
+---
+
+## Docs
+
+- `docs/INTEGRATION.md`: how modules are expected to plug together
+- `docs/BLOCKCHAIN_API.md`: expected blockchain service contract
+- `docs/CHATBOT_API.md`: expected chatbot/summarizer contract
+- `docs/ROLES_AND_ACCESS.md`: role definitions & where to enforce access
+
+---
+
+## Security note (important)
+
+If any real credentials/API keys were ever committed into any `.env` files, treat them as **compromised**:
+
+- rotate/revoke the keys (Pinata, Gemini, Groq, database password)
+- replace committed secrets with placeholder examples (or add `.env.example` files)
+- ensure `.env` stays ignored via `.gitignore`
