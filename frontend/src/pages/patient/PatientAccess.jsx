@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useWeb3 } from "../../blockchain/Web3Context";
 import { linkWallet } from "../../api/users";
+import WalletMismatchBanner from "../../components/WalletMismatchBanner";
 
 const styles = {
   page: { display: "flex", flexDirection: "column", gap: "1.5rem" },
@@ -55,7 +56,7 @@ const styles = {
 };
 
 export default function PatientAccess() {
-  const { isConnected, connectWallet, isConnecting, account, grantAccessOnChain, revokeAccessOnChain, checkAccessOnChain } =
+  const { isConnected, connectWallet, isConnecting, account, grantAccessOnChain, revokeAccessOnChain, checkAccessOnChain, getGrantedDoctorsOnChain } =
     useWeb3();
 
   const [doctorWallet, setDoctorWallet] = useState("");
@@ -78,6 +79,39 @@ export default function PatientAccess() {
     const stored = localStorage.getItem("medivault_user");
     if (stored) setUser(JSON.parse(stored));
   }, []);
+
+  // Load persisted grants from chain when connected (patient must be the signer).
+  useEffect(() => {
+    if (!isConnected || !account) return;
+    let cancelled = false;
+
+    async function load() {
+      try {
+        const doctors = await getGrantedDoctorsOnChain({ patientWallet });
+        const rows = await Promise.all(
+          (doctors || []).map(async (d) => {
+            const res = await checkAccessOnChain({ patientWallet, doctorWallet: d });
+            const hasAccess = Boolean(res?.[0]);
+            const expiresAt = Number(res?.[1] || 0);
+            return {
+              doctorWallet: String(d).toLowerCase(),
+              expiresAt,
+              status: hasAccess ? "active" : "revoked",
+              txHash: "",
+            };
+          })
+        );
+        if (!cancelled) setGrants(rows.filter((r) => r.doctorWallet));
+      } catch {
+        // ignore — still usable via manual grant inputs
+      }
+    }
+
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, [isConnected, account]);
 
   async function handleSaveWallet() {
     if (!user?.id) return;
@@ -160,6 +194,7 @@ export default function PatientAccess() {
       </div>
 
       <div style={styles.card}>
+        {user ? <WalletMismatchBanner user={user} style={{ marginBottom: 12 }} /> : null}
         <div style={{ ...styles.row, justifyContent: "space-between" }}>
           <div style={styles.small}>
             Wallet: {isConnected ? <b><code>{patientWallet}</code></b> : <b>Not connected</b>}

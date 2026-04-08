@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { getPatients } from "../../api/patients";
 import { useWeb3 } from "../../blockchain/Web3Context";
+import { listPatientReports } from "../../api/reports";
+import WalletMismatchBanner from "../../components/WalletMismatchBanner";
 
 const styles = {
   page: {
@@ -126,6 +128,20 @@ const styles = {
     fontSize: "0.9375rem",
     padding: "1rem 0",
   },
+  divider: { marginTop: "1.25rem", paddingTop: "1.25rem", borderTop: "1px solid var(--color-border)" },
+  reportRow: {
+    padding: "0.75rem 0.9rem",
+    borderRadius: "var(--radius)",
+    border: "1px solid var(--color-border)",
+    background: "rgba(255,255,255,0.02)",
+    display: "flex",
+    justifyContent: "space-between",
+    gap: "1rem",
+    alignItems: "center",
+  },
+  reportMeta: { display: "flex", flexDirection: "column", gap: 4, minWidth: 0 },
+  reportName: { fontWeight: 650, color: "var(--color-text)" },
+  reportSub: { color: "var(--color-text-muted)", fontSize: "0.875rem" },
 };
 
 export default function MyFiles() {
@@ -137,6 +153,9 @@ export default function MyFiles() {
   const [error, setError] = useState("");
   const [verifying, setVerifying] = useState("");
   const [verifyResult, setVerifyResult] = useState({});
+  const [reports, setReports] = useState([]);
+  const [loadingReports, setLoadingReports] = useState(false);
+  const [reportsError, setReportsError] = useState("");
 
   const GATEWAY = import.meta.env.VITE_IPFS_GATEWAY || "https://gateway.pinata.cloud/ipfs/";
 
@@ -166,6 +185,27 @@ export default function MyFiles() {
     fetchPatients();
   }, [user]);
 
+  useEffect(() => {
+    if (!user || !selectedPatient) return;
+    let cancelled = false;
+    async function load() {
+      try {
+        setLoadingReports(true);
+        setReportsError("");
+        const data = await listPatientReports({ patientId: selectedPatient.id, doctorId: user.id });
+        if (!cancelled) setReports(data.reports || []);
+      } catch (e) {
+        if (!cancelled) setReportsError(e.message || "Failed to load reports.");
+      } finally {
+        if (!cancelled) setLoadingReports(false);
+      }
+    }
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, [user, selectedPatient]);
+
   async function handleVerify(hash) {
     if (!isConnected) return;
     setVerifying(hash);
@@ -192,6 +232,7 @@ export default function MyFiles() {
       </div>
 
       <div style={styles.card}>
+        {user ? <WalletMismatchBanner user={user} style={{ marginBottom: 12 }} /> : null}
         <div style={{ display: "flex", justifyContent: "space-between", gap: "1rem", flexWrap: "wrap" }}>
           <h2 style={{ fontSize: "1.25rem", fontWeight: 600, marginBottom: "1rem", color: "var(--color-text)" }}>
             Patients under you
@@ -228,7 +269,7 @@ export default function MyFiles() {
               ))}
             </ul>
             {selectedPatient && (
-              <div style={{ marginTop: "1.5rem", paddingTop: "1.5rem", borderTop: "1px solid var(--color-border)" }}>
+              <div style={styles.divider}>
                 <h3 style={{ fontSize: "1rem", fontWeight: 600, marginBottom: "0.75rem", color: "var(--color-text)" }}>
                   Hash IDs for {selectedPatient.fullName}
                 </h3>
@@ -269,6 +310,60 @@ export default function MyFiles() {
                     ))}
                   </ul>
                 )}
+
+                <div style={styles.divider}>
+                  <h3 style={{ fontSize: "1rem", fontWeight: 600, marginBottom: "0.75rem", color: "var(--color-text)" }}>
+                    Reports (with blockchain status)
+                  </h3>
+                  {loadingReports ? (
+                    <div style={styles.smallMuted}>Loading reports…</div>
+                  ) : reportsError ? (
+                    <div style={styles.error}>{reportsError}</div>
+                  ) : reports.length === 0 ? (
+                    <div style={styles.smallMuted}>No reports found.</div>
+                  ) : (
+                    <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                      {reports.map((r) => (
+                        <div key={r._id} style={styles.reportRow}>
+                          <div style={styles.reportMeta}>
+                            <div style={styles.reportName}>{r.originalFileName}</div>
+                            <div style={styles.reportSub}>
+                              {new Date(r.createdAt).toLocaleString()} · status: <b>{r.status}</b>
+                              {r.chainStatus ? (
+                                <>
+                                  {" "}· chain: <b>{r.chainStatus}</b>
+                                </>
+                              ) : null}
+                            </div>
+                          </div>
+                          <div style={styles.actions}>
+                            {r.ipfsHash ? (
+                              <a
+                                href={GATEWAY + r.ipfsHash}
+                                target="_blank"
+                                rel="noreferrer"
+                                style={{ ...styles.btnSm, textDecoration: "none" }}
+                              >
+                                Open IPFS
+                              </a>
+                            ) : null}
+                            {r.ipfsHash ? (
+                              <button
+                                type="button"
+                                style={styles.btnSm}
+                                onClick={() => handleVerify(r.ipfsHash)}
+                                disabled={!isConnected || verifying === r.ipfsHash}
+                                title={!isConnected ? "Connect MetaMask to verify on-chain" : "Verify on blockchain"}
+                              >
+                                {verifying === r.ipfsHash ? "Verifying..." : "Verify"}
+                              </button>
+                            ) : null}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             )}
           </>
