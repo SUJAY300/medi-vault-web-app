@@ -98,6 +98,7 @@ const NAV_ITEMS = [
   { to: "/dashboard/patient", end: true, label: "Dashboard", icon: "📊" },
   { to: "/dashboard/patient/files", end: false, label: "My Files", icon: "📁" },
   { to: "/dashboard/patient/doctor", end: false, label: "Doctor", icon: "👨‍⚕️" },
+  { to: "/dashboard/patient/access", end: false, label: "Access Control", icon: "🔐" },
 ];
 
 export default function PatientLayout() {

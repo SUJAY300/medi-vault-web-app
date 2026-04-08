@@ -1,0 +1,24 @@
+fastapi==0.129.0
+uvicorn[standard]==0.40.0
+python-dotenv==1.2.1
+requests
+
+# PDF extraction + OCR
+pymupdf
+pdfplumber
+pdf2image
+easyocr
+opencv-python-headless
+numpy
+
+# Gemini JSON repair/parsing
+json-repair
+
+# FastAPI file uploads
+python-multipart
+
+# (Optional but used by app_streamlit.py / visualizer.py)
+streamlit
+pandas
+plotly
+python-dateutil

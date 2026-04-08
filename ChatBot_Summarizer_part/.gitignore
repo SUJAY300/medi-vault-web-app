@@ -1,0 +1,22 @@
+# Environment variables (Crucial for security!)
+.env
+.env.local
+
+# Python 
+__pycache__/
+*.py[cod]
+venv/
+env/
+
+# Node.js (if applicable)
+node_modules/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+
+chatbot/
+chatbot_backend/
+frontend/
+data/pdf_samples/
