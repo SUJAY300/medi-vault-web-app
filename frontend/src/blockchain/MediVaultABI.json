@@ -113,6 +113,17 @@
   },
   {
     "inputs": [
+      { "internalType": "address", "name": "patientAddress", "type": "address" }
+    ],
+    "name": "getGrantedDoctors",
+    "outputs": [
+      { "internalType": "address[]", "name": "", "type": "address[]" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
       { "internalType": "address", "name": "doctorAddress", "type": "address" },
       { "internalType": "uint256", "name": "expiresAt", "type": "uint256" }
     ],

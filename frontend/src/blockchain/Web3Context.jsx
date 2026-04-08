@@ -95,6 +95,11 @@ export function Web3Provider({ children }) {
     return await contract.methods.checkAccess(patientWallet, doctorWallet).call();
   }
 
+  async function getGrantedDoctorsOnChain({ patientWallet }) {
+    assertReady();
+    return await contract.methods.getGrantedDoctors(patientWallet).call({ from: account });
+  }
+
   async function verifyDocumentOnChain({ ipfsHash }) {
     if (!contract) throw new Error("Contract not ready. Set VITE_CONTRACT_ADDRESS.");
     // verifyDocument is non-view in Solidity (writes audit log), but we use eth_call for demo verification.
@@ -115,6 +120,7 @@ export function Web3Provider({ children }) {
     grantAccessOnChain,
     revokeAccessOnChain,
     checkAccessOnChain,
+    getGrantedDoctorsOnChain,
     verifyDocumentOnChain,
   };
 

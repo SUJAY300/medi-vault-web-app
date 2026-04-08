@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { getPatients } from "../../api/patients";
 import { confirmReportBlockchain, getReport, listPatientReports, runReportSummarizer, saveReportSummary, uploadPatientReport, uploadToIpfs } from "../../api/reports";
 import { useWeb3 } from "../../blockchain/Web3Context";
+import WalletMismatchBanner from "../../components/WalletMismatchBanner";
 
 const FASTAPI_BASE = "http://127.0.0.1:8000";
 
@@ -451,6 +452,7 @@ export default function UploadFiles() {
         <h1 style={styles.title}>Upload Reports</h1>
         <p style={styles.subtitle}>Select a patient, upload a PDF, run the summarizer, and save output.</p>
       </div>
+      {user ? <WalletMismatchBanner user={user} /> : null}
 
       {loadingPatients ? (
         <div style={styles.loading}>Loading patients...</div>
